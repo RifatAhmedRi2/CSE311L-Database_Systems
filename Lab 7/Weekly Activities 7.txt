@@ -1,0 +1,54 @@
+
+~~~~~~~~ PART 1 ~~~~~~~~
+
+#Activity 1:
+
+CREATE TABLE emp_cpy LIKE employees
+
+INSERT INTO emp_cpy
+VALUES
+(100, 'Rifat', 'Ahmed', 'RAHMED', '193.172.5042', '2000-06-22', 'AD_PRES', 24000.00, NULL, NULL, 90),
+(103, 'Sokhina', 'Begum', 'SBEGUM', '514.153.4548', '2009-02-21', 'AD_VP', 17000.00, NULL, 100, 90),
+(106, 'Mina', 'Akter', 'MAKTER', '515.173.3569', '2008-01-13', 'AD_VP', 17000.00, NULL, 100, 90),
+(110, 'Tony', 'Stark', 'TSTARK', '531.823.7567', '2008-07-03', 'IT_PROG', 20000.00, NULL, 102, 60),
+(111, 'Ken', 'Kaneki', 'KKANEKI', '590.323.8518', '2010-01-28', 'IT_PROG', 12000.00, NULL, 103, 60)
+
+REPLACE INTO emp_cpy
+SELECT * FROM employees
+
+
+
+~~~~~~~~ PART 2 ~~~~~~~~
+
+#Activity 1:
+
+CREATE TABLE EMP (
+    ID int(7),
+    LAST_NAME varchar(25),
+    FIRST_NAME varchar(25),
+    DEPT_ID int(7)
+)
+
+a.
+ALTER TABLE EMP
+MODIFY COLUMN LAST_NAME varchar(50)
+
+INSERT INTO emp(LAST_NAME)
+VALUES ('IKHTIAR UDDIN MOHAMMED BIN BAKHTIAR KHILJI')
+
+b.
+CREATE TABLE EMPLOYEES2 
+SELECT Employee_Id AS ID, First_Name AS FIRST_NAME, Last_Name AS LAST_NAME, Salary AS SALARY, Department_Id AS DEPT_ID
+FROM employees
+
+c.
+DROP TABLE EMP
+
+d.
+RENAME TABLE EMPLOYEES2 TO EMP
+
+e.
+ALTER TABLE EMP
+DROP COLUMN FIRST_NAME
+
+SELECT * FROM EMP

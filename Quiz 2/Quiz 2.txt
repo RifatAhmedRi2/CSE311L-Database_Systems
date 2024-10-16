@@ -1,0 +1,65 @@
+#Answer to the question no 1:
+
+a) CREATE TABLE emp_review
+SELECT Employee_ID, First_Name, Last_Name, Email, Salary
+FROM employees LIMIT 0
+
+ALTER TABLE emp_review
+ADD PRIMARY KEY (Employee_ID)
+
+b) INSERT INTO emp_review
+SELECT Employee_ID, First_Name, Last_Name, Email, Salary
+FROM employees
+WHERE Manager_Id = (SELECT Employee_Id
+                    FROM employees
+                    WHERE First_Name = 'Neena')
+
+c) INSERT INTO emp_review
+VALUES
+(222, 'Rifat', 'Ahmed', 'RAHMED', '22000')
+
+d) INSERT IGNORE INTO emp_review
+SELECT Employee_ID, First_Name, Last_Name, Email, Salary
+FROM employees
+
+
+
+#Answer to the question no 2:
+
+a) UPDATE employees
+SET Salary = Salary + (Salary*5/100),
+	Commission_pct = (SELECT Commission_pct
+                      FROM employees
+                      WHERE Last_Name LIKE 'Abel')
+WHERE Department_Id = (SELECT Department_Id
+                       FROM employees
+                       WHERE Last_Name LIKE 'Abel')
+
+b) ALTER TABLE employees
+ADD COLUMN employees.Comment VARCHAR(25) DEFAULT 'NA'
+
+c) ALTER TABLE employees
+MODIFY COLUMN employees.Comment VARCHAR(100) DEFAULT 'NA'
+
+d) RENAME TABLE employees TO Emp_Changed
+
+e) ALTER TABLE emp_changed
+DROP COLUMN emp_changed.Comment
+
+f) DELETE FROM emp_changed
+
+
+
+#Answer to the question no 3:
+
+a) INSERT INTO departments
+VALUES
+(130, 'Logistics', 102, 3500)
+
+b) INSERT INTO locations
+VALUES
+(3500, NULL, 26362, 'Tongi', 'Dhaka', 'BD')
+
+c) ALTER TABLE departments
+ADD FOREIGN KEY (Location_id) REFERENCES locations (Location_id)
+ON DELETE CASCADE ON UPDATE CASCADE

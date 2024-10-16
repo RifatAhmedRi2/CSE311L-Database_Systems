@@ -1,0 +1,58 @@
+Q1: Create a trigger on employee table as UPDATE_RECORD_TRIGGER. Before updating
+a row on employees table, you designed trigger will store the OLD value of
+employee_id against employee_ID, OLD value of last_name against lastname, execution time of trigger
+against changedat and ‘Inserted for Update’ against action column on employees_audit table. 
+
+
+Q2: Create a procedure that takes the department_id as parameter, and return the average salary
+of that department. You can’t use more than one parameter in your designed procedure. 
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#1:
+
+DELIMITER $$
+CREATE TRIGGER UPDATE_RECORD_TRIGGER
+BEFORE UPDATE
+ON employees FOR EACH ROW
+
+BEGIN
+DECLARE employee_ID int;
+DECLARE lastname varchar(50);
+DECLARE action_col varchar(50);
+
+IF(NEW.employee_ID <> OLD.employee_ID) THEN
+SET employee_ID = employee_ID;
+ELSEIF(NEW.last_name <> OLD.last_name) THEN
+SET lastname = last_name;
+ELSE SET action_col = 'Inserted for Update';
+END IF;
+
+INSERT INTO employees_audit (`employee_ID`, `lastname`, `changedat`, `action`)
+VALUES
+(ID, lastname, NOW(), action_col);
+
+END$$
+
+DELIMITER ;
+
+
+
+#2:
+
+DELIMITER $$
+CREATE PROCEDURE AVG_Salary (IN departmentID INT, OUT SalaryAVG DOUBLE)
+
+BEGIN
+DECLARE sal_A double;
+
+SELECT AVG(Salary)
+INTO sal_A
+FROM employees
+WHERE employees.Department_Id = departmentID;
+
+SET SalaryAVG = sal_A;
+
+END$$
+DELIMITER ;

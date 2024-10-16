@@ -1,0 +1,45 @@
+
+~~~~~~~~ PART 1 ~~~~~~~~
+
+#Activity 1:
+
+SELECT ROUND(MAX(Salary)) as 'Maximum', ROUND(MIN(Salary)) as 'Minimum', ROUND(SUM(Salary)) as 'Sum', ROUND(AVG(Salary)) as 'Average'
+FROM employees
+
+
+#Activity 2:
+
+SELECT Job_Id, ROUND(MAX(Salary)) as 'Maximum', ROUND(MIN(Salary)) as 'Minimum', ROUND(SUM(Salary)) as 'Sum', ROUND(AVG(Salary)) as 'Average'
+FROM employees
+GROUP BY Job_Id 
+
+
+
+~~~~~~~~ PART 2 ~~~~~~~~
+
+#Activity 1:
+
+SELECT Job_Id, COUNT(*)
+FROM employees
+GROUP BY Job_Id
+
+
+#Activity 2:
+
+SELECT Manager_Id, MIN(Salary)
+FROM employees
+WHERE Manager_id IS NOT NULL
+GROUP BY Manager_Id
+HAVING MIN(Salary)>6000
+ORDER BY MIN(Salary) DESC
+
+
+#Home Work:
+
+SELECT d.Department_Name as 'Name', l.City as 'Location', COUNT(e.Department_Id) as 'Number of People', ROUND(AVG(e.Salary), 2) as 'Salary'
+FROM employees e
+RIGHT JOIN departments d
+ON (e.Department_Id = d.Department_id)
+JOIN locations l
+ON (d.Location_id = l.Location_id)
+GROUP BY d.Department_Name, l.City

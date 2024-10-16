@@ -1,0 +1,49 @@
+CREATE TABLE billing (
+  productID int NOT NULL,
+  orderID int NOT NULL,
+  totalAmount int NOT NULL,
+  FOREIGN KEY (orderID) REFERENCES order_tracking (orderID),
+  FOREIGN KEY (productID, totalAmount) REFERENCES product (productID, totalAmount)
+)
+
+
+CREATE TABLE `customer` (
+  `customerID` int NOT NULL PRIMARY KEY,
+  `customerName` varchar(25) DEFAULT NULL,
+  `locationID` int NOT NULL,
+   FOREIGN KEY (locationID) REFERENCES location (locationID)
+)
+
+
+CREATE TABLE `location` (
+  `locationID` int(11) NOT NULL PRIMARY KEY,
+  `streetAddress` varchar(25) DEFAULT NULL,
+  `city` varchar(25) NOT NULL,
+  `postalCode` int(11) NOT NULL,
+  `state` varchar(25) DEFAULT NULL
+)
+
+
+CREATE TABLE `merchant` (
+  `userName` varchar(25) NOT NULL PRIMARY KEY,
+  `PASSWORD` varchar(25) NOT NULL
+)
+
+
+CREATE TABLE `order_tracking` (
+  `orderID` int(11) NOT NULL PRIMARY KEY,
+  `customerID` int(11) DEFAULT NULL, FOREIGN KEY (customerID) REFERENCES customer (customerID),
+  `productID` int(11) NOT NULL, FOREIGN KEY (productID) REFERENCES product (productID),
+  `locationID` int(11) NOT NULL, FOREIGN KEY (locationID) REFERENCES customer (locationID),
+  `orderStatus` varchar(25) NOT NULL
+)
+
+
+CREATE TABLE `product` (
+  `productName` varchar(25) DEFAULT NULL,
+  `productID` int(11) NOT NULL,
+  `productType` varchar(25) NOT NULL,
+  `productWeight` double NOT NULL,
+  `totalAmount` int(11) NOT NULL,
+  PRIMARY KEY (productID, totalAmount)
+)

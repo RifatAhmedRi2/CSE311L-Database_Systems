@@ -1,0 +1,90 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2578
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 1. SELECT title\
+FROM movie\
+Where director like 'Steven Spielberg'\
+\
+2. SELECT DISTINCT movie.year\
+FROM movie, rating\
+WHERE movie.mID = rating.mID AND rating.stars IN (4,5)\
+\
+3. SELECT DISTINCT movie.title\
+FROM movie\
+LEFT JOIN rating\
+ON (movie.mID = rating.mID AND rating.stars)\
+Where rating.stars IS NULL\
+\
+4.SELECT DISTINCT reviewer.name\
+FROM movie\
+JOIN rating\
+ON (movie.mID = rating.mID AND rating.stars)\
+JOIN reviewer\
+ON(reviewer.rID = rating.rID)\
+Where rating.ratingDate IS NULL\
+\
+5.SELECT DISTINCT reviewer.name, movie.title, rating.stars, rating.ratingDate\
+FROM movie\
+JOIN rating\
+ON (movie.mID = rating.mID AND rating.stars)\
+JOIN reviewer\
+ON(reviewer.rID = rating.rID)\
+ORDER BY reviewer.name, movie.title, rating.stars\
+\
+6. SELECT re1.name, movie.title\
+FROM movie\
+JOIN rating r1\
+ON(r1.mID = movie.mID)\
+JOIN reviewer re1\
+ON(re1.rID = r1.rID)\
+JOIN rating r2\
+ON(r2.mID = movie.mID)\
+JOIN reviewer re2\
+ON(r2.rID = re2.rID)\
+WHERE  r1.ratingDate < r2.ratingDate AND re1.rID = re2.rID AND r1.stars < r2.stars\
+\
+7. SELECT movie.title, MAX(r1.stars) "MAX Stars"\
+FROM movie\
+JOIN rating r1\
+ON(r1.mID = movie.mID)\
+JOIN reviewer re1\
+ON(re1.rID = r1.rID)\
+GROUP BY movie.mID\
+HAVING COUNT(movie.mID) >= 1\
+ORDER BY movie.title\
+\
+8. SELECT movie.title, MAX(r1.stars) - MIN(r1.stars) AS "Rating Spread"\
+FROM movie\
+JOIN rating r1\
+ON(r1.mID = movie.mID)\
+JOIN reviewer re1\
+ON(re1.rID = r1.rID)\
+GROUP BY movie.mID\
+HAVING COUNT(movie.mID) >= 1  \
+ORDER BY `Rating Spread`  DESC, movie.title ASC\
+\
+9.SELECT ABS(MAX_BEFORE_1980.m_avg - MAX_AFTER_1980.m_avg) AS Difference\
+FROM (\
+    SELECT AVG(avgStars) as m_avg\
+    FROM(\
+    SELECT AVG(rating.stars) AS avgStars\
+    FROM rating,movie\
+    WHERE rating.mID = movie.mID AND movie.year < 1980\
+	GROUP BY movie.mID) AS Before_1980) AS MAX_BEFORE_1980,\
+    (\
+    SELECT AVG(avgStars) as m_avg\
+    FROM(\
+    SELECT AVG(rating.stars) AS avgStars\
+    FROM rating,movie\
+    WHERE rating.mID = movie.mID AND movie.year > 1980\
+    GROUP BY movie.mID) AS After_1980) AS MAX_AFTER_1980\
+\
+10. SELECT reviewer.name\
+FROM movie, rating, reviewer\
+WHERE movie.mID = rating.mID AND reviewer.rID = rating.rID\
+GROUP BY reviewer.rID\
+HAVING COUNT(movie.mID) >= 3}

@@ -1,0 +1,55 @@
+Q1: Find out the last name of the employee who was hired first.
+Q2: Find out the department name having minimum average salary.
+Q3:
+SELECT employee_id, last_name, job_id, salary
+FROM employees
+WHERE salary < ANY
+
+(SELECT salary
+FROM employees
+WHERE job_id = ’IT_PROG’)
+Convert the above SQL Query so that you don’t need to use ANY/ALL/IN keywords anymore.
+
+
+~~~~~~~~~~~~~~~ANSWERS~~~~~~~~~~~~~~~
+
+
+#Answer 1:
+
+SELECT Last_Name
+FROM employees
+WHERE Hire_Date = (
+    SELECT MIN(Hire_Date)
+	FROM employees)
+
+
+
+#Answer 2: 
+
+SELECT DEPT_INFO.AVG_SALARY_DEPT AS 'MIN AVG SALARY', DEPT_INFO.DEPT_NAME
+FROM (
+    SELECT AVG(e.Salary) AS AVG_SALARY_DEPT, d.Department_Name AS DEPT_NAME
+    FROM employees e
+    JOIN departments d
+    ON (e.Department_Id = d.Department_Id)
+	GROUP BY d.Department_Id) AS DEPT_INFO
+    
+WHERE AVG_SALARY_DEPT = (
+    SELECT MIN(N.AVG_SALARY_DEPT) AS A
+    FROM (
+        SELECT AVG(e.Salary) AS AVG_SALARY_DEPT
+        FROM employees e
+    	JOIN departments d
+    	ON (e.Department_Id = d.Department_Id)
+    	GROUP BY d.Department_Id) AS N)
+
+
+
+#Answer 3: 
+
+SELECT Employee_Id, Last_Name, Job_Id, Salary
+FROM employees
+WHERE Salary <
+	(SELECT MAX(Salary)
+	FROM employees
+	WHERE Job_Id = 'IT_PROG')

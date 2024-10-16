@@ -1,0 +1,44 @@
+#Answer to the question no 1:
+
+SELECT l.Postal_Code, d.Department_Name
+FROM locations l, departments d
+ORDER BY l.Postal_Code
+
+
+#Answer to the question no 2:
+
+SELECT Job_Id, ABS(ROUND(AVG(Salary)-((MAX(Salary)+MIN(Salary))/2))) AS 'Difference'
+FROM employees
+GROUP BY Job_Id
+
+
+#Answer to the question no 3:
+
+SELECT U.newCol AS "List of Employess and Department"
+FROM ((SELECT CONCAT(First_Name,', ' , Last_Name) AS newCol
+FROM employees
+WHERE Last_Name LIKE "%S")
+UNION
+(SELECT Department_Name AS newCol
+FROM departments
+WHERE Department_Name LIKE "%N_")) AS U
+ORDER BY newCol ASC
+
+
+#Answer to the question no 4:
+
+SELECT Last_Name, Department_Id
+FROM employees
+WHERE Department_Id IN (20,50)
+ORDER BY Department_Id DESC, Last_Name ASC
+
+
+#Answer to the question no 5:
+
+SELECT e.Last_Name, l.Street_Address
+FROM employees e
+LEFT JOIN departments d
+ON (e.Department_Id = d.Department_id)
+LEFT JOIN locations l
+ON (l.Location_id = d.Location_id)
+WHERE e.Hire_Date LIKE "____-05-__"

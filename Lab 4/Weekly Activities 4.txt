@@ -1,0 +1,56 @@
+
+~~~~~~~~ PART 1 ~~~~~~~~
+
+#Activity 1:
+
+SELECT e.Last_Name, e.Department_id, d.Department_Name
+FROM employees e
+JOIN departments d
+ON (e.Department_Id = d.Department_id)
+
+
+#Activity 2:
+
+SELECT e.Last_Name, d.Department_Name, l.Location_id, l.City
+FROM employees e
+JOIN departments d
+ON (e.Department_Id = d.Department_id)
+JOIN locations l
+ON (d.Location_id = l.Location_id)
+WHERE e.Commission_pct IS NOT NULL
+
+
+
+~~~~~~~~ PART 2 ~~~~~~~~
+
+#Activity 1:
+
+SELECT e.Last_Name, j.Job_title, d.Department_id, d.Department_Name
+FROM employees e
+JOIN departments d
+ON (e.Department_id = d.Department_id)
+LEFT JOIN jobs j
+ON (e.Job_Id = j.Job_Id)
+JOIN locations l
+ON (d.Location_id = l.Location_id)
+WHERE l.City = "Toronto"
+
+
+#Activity 2:
+
+SELECT e.Last_Name, d.Department_Name, d.Location_id, l.City
+FROM employees e
+LEFT JOIN departments d
+ON (e.Department_Id = d.Department_id)
+LEFT JOIN locations l
+ON (d.Location_id = l.Location_id)
+WHERE e.Commission_pct IS NOT NULL
+ORDER BY e.Salary DESC, e.Commission_pct DESC
+
+
+#Activity 3:
+
+SELECT e.Last_Name as "Employee", e.Employee_Id as "Emp#", m.Last_Name as "Manager", m.Employee_Id as "Mgr#"
+FROM employees e
+LEFT JOIN employees m
+ON (e.Manager_id = m.Employee_Id)

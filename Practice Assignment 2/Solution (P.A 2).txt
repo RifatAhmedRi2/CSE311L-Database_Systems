@@ -1,0 +1,43 @@
+1.SELECT H1.name
+FROM Highschooler H1
+INNER JOIN Friend ON H1.ID = Friend.ID1
+INNER JOIN Highschooler H2 ON H2.ID = Friend.ID2
+WHERE H2.name = "Gabriel"
+
+2.SELECT H1.name, H1.grade, H2.name, H2.grade
+FROM Highschooler H1, Highschooler H2, Likes L1, Likes L2
+WHERE (H1.ID = L1.ID1 AND H2.ID = L1.ID2) AND (H2.ID = L2.ID1 AND H1.ID = L2.ID2) AND H1.name < H2.name
+ORDER BY H1.name, H2.name
+
+3. SELECT name, grade
+FROM Highschooler
+WHERE ID NOT IN (
+  SELECT DISTINCT ID1
+  FROM Likes
+  UNION
+  SELECT DISTINCT ID2
+  FROM Likes
+)
+ORDER BY grade, name
+
+4.SELECT COUNT(*) - COUNT(DISTINCT name) Difference
+FROM Highschooler
+
+5.SELECT name, grade
+FROM Highschooler
+INNER JOIN Likes ON Highschooler.ID = Likes.ID2
+GROUP BY ID2
+HAVING COUNT(*) > 1
+
+6.DELETE FROM highschooler
+WHERE grade = 12;
+
+7. UPDATE highschooler
+SET grade = grade + 1
+WHERE grade in (9,10,11)
+
+8. CREATE TRIGGER af_update_hschl
+AFTER UPDATE
+ON highschooler FOR EACH ROW
+
+INSERT INTO daten VALUES (NOW());

@@ -1,0 +1,116 @@
+MERCHANT TABLE
+
+INSERT INTO merchant
+VALUES
+('Trendz', 'trendz123'),
+('Artisan', 'artisan456'),
+('Fashion House', 'fhouse'),
+('House of Ahmed', 'HOA123'),
+('Texmart', 'tex123'),
+('Apex', 'apex123')
+
+
+
+PRODUCT TABLE
+
+INSERT INTO product
+VALUES
+('Charging Cable', '17695', 'Mobile Accessories', '0.25', '560'),
+('Doritos', '35200' ,'Food', '0.20','400'),
+('Logitech Speakers', '17732', 'Electronics', '2.00', '2000'),
+('Mobile Cover', '17889', 'Mobile Accessories', '0.25', '790'),
+('Panjabi', '12332', 'Clothing', '1.00', '2450'),
+('Pringles and Coke', '35890', 'Food', '1.80', '460'),
+('Tshirt', '12543', 'Clothing', '0.50', '1200'),
+('Fossil Watch', '13452', 'Men\'s Accessories', '0.60', '7060'),
+('Versace Perfume', '13889', ' Men\'s Accessories', '1.20', '5600'),
+('LG 32\" Monitor', '17543', 'Electronics', '10.00', '18000')
+
+
+
+LOCATION TABLE
+
+INSERT INTO location
+VALUES
+('1300', 'Sher-e-bangla road', 'Tongi', '1710', 'Gazipur'),
+('1400', 'Gobib-e-newaz road', 'Uttara', '2320', 'Dhaka'),
+('1600', 'College gate chottor', 'Pabna', '6600', 'Rajshahi'),
+('1700', 'Choyonika garments', 'Dhanmondi', '5643', 'Dhaka'),
+('2000', 'Matbor bari road', 'Dumuria', '9252', 'Khulna'),
+('2500', 'Cherag Ali road', 'Tongi', '1713', 'Gazipur'),
+('3300', 'Chowrasta', 'Panthapath', '3329', 'Dhaka'),
+('2200', 'Chiringa bazar road', 'Cox\'s Bazar', '4743', 'Chittagong')
+
+
+
+CUSTOMER TABLE
+
+INSERT INTO customer
+VALUES
+('222', 'RIfat Ahmed', '1300'),
+('301', 'Nafis Faiyaz', '3300'),
+('345', 'Shashoto Siam', '1400'),
+('379', 'Peter Parker', '2000'),
+('390', 'Tony Stark', '1300'),
+('408', 'Rahima Begum', '2500'),
+('409', 'Kuddus Mia', '1600'),
+('422', 'Mina Akter', '3300'),
+('436', 'Sakib Al Hasan', '2200'),
+('447', 'Mushfiqur Rahim', '2200'),
+('453', 'Tamim Iqbal', '1700'),
+('463', 'Sabbir Rahman', '2000'),
+('466', 'Lee Ji Eun', '1400')
+
+
+
+ORDER TRACKING TABLE
+
+INSERT INTO order_tracking
+VALUES
+('336519', '222', '13452', '1300', 'Packaging'),
+('226499', '466', '17732', '1400', 'Delivered'),
+('135463', '379', '13889', '2000', 'Delivered'),
+('123545', '422', '17695', '3300', 'Packaging'),
+('543414', '301', '12332', '3300', 'Delivered'),
+('138535', '453', '35890', '1700', 'Delivered'),
+('385634', '390', '17543', '1300', 'Out For Delivery'),
+('456345', '345', '17695', '1400', 'Delivered'),
+('894433', '408', '17732', '2500', 'Packaging'),
+('454383', '222', '12543', '1300', 'Delivered'),
+('731353', '301', '17889', '3300', 'Packaging'),
+('748681', '422', '35200', '3300', 'Out For Delivery'),
+('438534', '390', '12332', '1300', 'Delivered'),
+('463863', '390', '35890', '1300', 'Out For Delivery'),
+('235354', '447', '12543', '2200', 'Packaging'),
+('284148', '463', '12543', '2000', 'Delivered'),
+('385364', '436', '17732', '2200', 'Packaging'),
+('394474', '222', '35200', '1300', 'Out For Delivery'),
+('638374', '466', '13889', '1400', 'Out For Delivery'),
+('456385', '379', '17695', '2000', 'Delivered')
+
+
+
+BILLING TABLE
+
+INSERT INTO billing
+VALUES
+('13452', '336519', '7060'),
+('17732', '226499', '2000'),
+('13889', '135463', '5600'),
+('17695', '123545', '560'),
+('12332', '543414', '2450'),
+('35890', '138535', '460'),
+('17543', '385634', '18000'),
+('17695', '456345', '560'),
+('17732', '894433', '2000'),
+('12543', '454383', '1200'),
+('17889', '731353', '790'),
+('35200', '748681', '400'),
+('12332', '438534', '2450'),
+('35890', '463863', '460'),
+('12543', '235354', '1200'),
+('12543', '284148', '1200'),
+('17732', '385364', '2000'),
+('35200', '394474', '400'),
+('13889', '638374', '5600'),
+('17695', '456385', '560')

@@ -1,0 +1,147 @@
+#Answer to the question no 1:
+
+SELECT Name
+FROM ta
+LEFT JOIN ta_info ti
+ON (ta.ID = ti.ID) 
+WHERE ta.ID IN (SELECT ID1
+                FROM friend
+                WHERE ID2 = (SELECT ID
+                             FROM ta
+                             WHERE Name = 'Konica')
+               ) AND Position = 'GA'
+
+
+
+#Answer to the question no 2:
+
+SELECT Name, GPA
+FROM ta
+WHERE (SELECT COUNT(*)
+       FROM review_ta rta
+       LEFT JOIN ta_info tai
+       ON (rta.ID1 = tai.ID)
+       WHERE rta.ID2 = ta.ID AND Position = 'UGA') > 1
+
+
+
+#Answer to the question no 3:
+
+SELECT CONCAT((SELECT Name FROM ta WHERE ta.ID = rta1.ID1 LIMIT 1), " REVIEWS ",
+              (SELECT Name FROM ta WHERE ta.ID = rta1.ID2 LIMIT 1), ", AND ",
+              (SELECT Name FROM ta WHERE ta.ID = rta1.ID2 LIMIT 1), " REVIEWS ",
+              (SELECT Name FROM ta WHERE ta.ID = rta2.ID2 LIMIT 1)) AS Message
+FROM review_ta rta1
+LEFT JOIN review_ta rta2
+ON (rta1.ID2=rta2.ID1)
+WHERE rta1.ID1<>rta2.ID2
+
+
+
+#Answer to the question no 4:
+
+SELECT Name, Position
+FROM ta
+LEFT JOIN ta_info ti
+ON ta.ID = ti.ID
+WHERE ((Position = 'UGA' AND GPA < 3.30)
+       OR (Position = 'GA' AND GPA < 3.50))
+
+
+
+#Answer to the question no 5:
+
+SELECT AVG(A)
+FROM (SELECT COUNT(*) AS A
+      FROM friend
+      GROUP BY ID1) AS C
+
+
+
+#Answer to the question no 6:
+
+ALTER TABLE review_ta
+MODIFY COLUMN ID1 int NULL
+
+
+
+#Answer to the question no 7:
+
+a) UPDATE ta
+SET Semester=(Semester+1)
+
+b) DELETE FROM ta
+WHERE ta.ID IN (SELECT ta.ID
+            FROM ta
+            LEFT JOIN ta_info ti
+            ON ta.ID = ti.ID
+            WHERE ((Position = 'UGA' AND GPA < 3.30)
+                   OR (Position = 'GA' AND GPA < 3.50)))
+
+
+
+#Answer to the question no 8:
+
+CREATE TABLE RECORD(
+    ID INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    TA_ID INT(11),
+    Name VARCHAR(255),
+    GPA DOUBLE(3,2),
+    date_of_exec DATE,
+    Comments VARCHAR(255))
+
+
+
+#Answer to the question no 9:
+
+A) DELIMITER $$
+CREATE PROCEDURE difference_with_highest_gpa(IN in_ID DOUBLE, OUT Difference DOUBLE)
+
+BEGIN
+DECLARE Highest_GPA DOUBLE;
+DECLARE in_GPA DOUBLE;
+
+SELECT MAX(GPA)
+INTO Highest_GPA
+FROM ta;
+
+SELECT GPA
+INTO in_GPA
+FROM ta
+WHERE ID = in_ID;
+
+SET Difference = (Highest_GPA - in_GPA);
+
+END$$
+DELIMITER ;
+
+B) CALL difference_with_highest_gpa(316,@difference);
+SELECT ROUND(@difference,3) AS 'Difference';
+
+
+
+#Answer to the question no 10:
+
+DELIMITER $$
+CREATE TRIGGER UPDATE_ON_TA
+AFTER UPDATE
+ON ta FOR EACH ROW
+
+BEGIN
+DECLARE live_Comment VARCHAR(50);
+
+IF(NEW.Name <> OLD.Name) AND (NEW.ID = OLD.ID) THEN
+	SET live_Comment = 'ID Updated Only';
+ELSEIF (NEW.Name = OLD.Name) AND (NEW.ID <> OLD.ID) THEN
+	SET live_Comment = 'Name Updated Only';
+ELSEIF (NEW.Name = OLD.Name) AND (New.ID = OLD.ID) THEN
+	SET live_Comment = 'Both Name and ID Updated';
+ELSE SET live_Comment = 'Updated';
+END IF;
+
+INSERT INTO record (ID, Name, GPA, date_of_exec, Comments)
+VALUES
+(NEW.ID, OLD.Name, OLD.GPA, NOW(), live_Comment);
+
+END$$
+DELIMITER ;

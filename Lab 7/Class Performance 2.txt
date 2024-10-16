@@ -1,0 +1,49 @@
+Q1:  Employees who work under Admin department give them 5% salary raise of their present salary. 
+OR
+Employees who have ''AD" in their JOB ID give them 5% salary raise of their present salary. 
+
+Q2: Add a foreign key location_id to the departments table referencing location_id from locations table. 
+
+Q3: Create a view that will return the Maximum average salary among the departments. 
+Marks will be deducted for copying from another submission
+
+
+----------------------------------------------------
+
+
+#1:
+
+UPDATE employees
+SET Salary = Salary + (Salary*5/100)
+WHERE Job_Id LIKE "AD%"
+
+
+
+#2:
+
+ALTER TABLE departments
+ADD CONSTRAINT dept_loc_fk
+FOREIGN KEY(Location_id)
+REFERENCES locations(Location_id)
+
+
+
+#3:
+
+CREATE VIEW Maximum_Average_Salary AS
+SELECT DEPT_INFO.AVG_SALARY_DEPT AS 'MAX AVG SALARY', Department_Name, Department_id
+FROM (
+    SELECT AVG(e.Salary) AS AVG_SALARY_DEPT, d.Department_Name, d.Department_id
+    FROM employees e
+    JOIN departments d
+    ON (e.Department_Id = d.Department_Id)
+	GROUP BY d.Department_Id) AS DEPT_INFO
+    
+WHERE AVG_SALARY_DEPT = (
+    SELECT MAX(N.AVG_SALARY_DEPT) AS A
+    FROM (
+        SELECT AVG(e.Salary) AS AVG_SALARY_DEPT
+        FROM employees e
+    	JOIN departments d
+    	ON (e.Department_Id = d.Department_Id)
+    	GROUP BY d.Department_Id) AS N)

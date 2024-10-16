@@ -1,0 +1,114 @@
+#Answer to the question no 1:
+
+SELECT name
+FROM s_reviewer rv
+JOIN s_rating rt
+ON (rt.rID = rv.rID)
+JOIN shop_details sd
+ON (rt.sID = sd.sID)
+WHERE sd.sName LIKE 'Amazon%'
+
+
+
+#Answer to the question no 2:
+
+SELECT U.newCol AS "List of Shop and Owner"
+FROM (SELECT sName AS newCol FROM shop_details
+UNION
+SELECT owner AS newCol FROM shop_details) AS U
+WHERE U.newCol IS NOT NULL
+ORDER BY U.newCol
+
+
+
+#Answer to the question no 3:
+
+SELECT DISTINCT(sName), year
+FROM shop_details sd
+JOIN s_rating rt
+ON (sd.sID = rt.sID)
+WHERE rt.stars IN (3,4)
+ORDER BY year DESC
+
+
+
+#Answer to the question no 4:
+
+SELECT sd.sName
+FROM s_rating rt
+JOIN s_reviewer rv
+ON (rt.rID = rv.rID)
+JOIN shop_details sd
+ON (rt.sID = sd.sID)
+WHERE sd.owner = rv.name
+
+
+
+#Answer to the question no 5:
+
+SELECT rv.rID, rv.name
+FROM s_reviewer rv
+JOIN s_rating rt
+ON (rt.rID = rv.rID)
+WHERE rt.ratingDate IS NULL
+
+
+
+#Answer to the question no 6:
+
+SELECT rv.name AS 'Name', COUNT(rt.rID) AS 'Number of Shop', ROUND(AVG(rt.stars),1) AS 'Average Rating'
+FROM s_rating rt
+RIGHT JOIN s_reviewer rv
+ON (rt.rID = rv.rID)
+GROUP BY rt.rID
+
+
+
+#Answer to the question no 7:
+
+SELECT owner
+FROM shop_details
+GROUP BY owner
+HAVING COUNT(*) > 1
+ORDER BY owner
+
+
+
+#Answer to the question no 8::
+
+SELECT DISTINCT rv1.name, rv2.name
+FROM s_rating rt1
+JOIN s_rating rt2
+ON rt1.sID = rt2.sID
+JOIN s_reviewer rv1
+ON rv1.rID = rt1.rID
+JOIN s_reviewer rv2
+ON rv2.rID = rt2.rID AND rv1.name > rv2.name
+WHERE rv1.name <> rv2.name
+ORDER BY rv1.name ASC, rv2.name ASC
+
+
+
+#Answer to the question no 9:
+
+SELECT sd.sName AS 'Shop Name',
+      (SELECT rv.name
+       FROM s_reviewer rv
+       JOIN s_rating rt
+       ON (rv.rID = rt.rID)
+       WHERE (rt.sID = sd.sID) AND rt.stars =
+            (SELECT MAX(stars)
+             FROM s_rating rt2
+             WHERE rt2.sID = sd.sID) LIMIT 1) AS 'Reviewer Name'
+FROM shop_details sd
+
+
+
+#Answer to the question no 10:
+
+SELECT rv.name, MAX(rt.stars) AS 'MAX RATING'
+FROM s_rating rt
+JOIN s_reviewer rv
+ON (rt.rID = rv.rID)
+GROUP BY rt.rID
+HAVING COUNT(*) > 2
